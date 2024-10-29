@@ -6,7 +6,7 @@ E1:     MOV     @R5+,R6     ;   menor elemento
         MOV     #5,R8       ;   TAMANHO DO ARRAY
 loop_menor:   CALL    #menor_subrotina
         DEC     R8
-        JNZ     loop
+        JNZ     loop_menor
 menor_subrotina:    CMP     @R5+,R6
                     JLO     menor_elemento      ; se for menor vai para menor 
                     JZ      igual_elemento      ; se for igual vai para maior
