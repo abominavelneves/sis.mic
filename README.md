@@ -8,7 +8,7 @@ E1:     MOV     @R5+,R6     ; menor elemento
 loop_menor:
         CALL    #menor_subrotina
         DEC     R8
-        JNZ     loop
+        JNZ     loop_menor
 s
 menor_subrotina:
         CMP     @R5,R6
