@@ -25,3 +25,42 @@ Ponto Interessante: seria válido por um .B pois são bytes.
 ```assembly
 
 ```
+## Terceira Questão
+```assembly
+
+```
+## Quarta Questão
+```assembly
+        mov     #vetor, R5
+        mov.w	@R5, R8
+        mov.w   @R5+, R6
+        mov.w   @R5, R7
+        dec	R5
+        call    #loop
+
+loop:
+        ADD	#2, R5
+        cmp	@R5, R7
+        jl    	novo_menor
+
+        cmp	@R5, R6
+        jge	novo_maior
+
+        dec	R8
+	cmp	#0,R8
+        jnz     loop
+        jmp	$
+
+novo_menor:
+        mov   @R5, R7
+        dec	R8
+        jmp     loop
+novo_maior:
+        mov   @R5, R6
+        dec	R8
+        jmp     loop
+        nop
+
+.data
+vetor:      .word 8, 121, 234, 567, -1990 , 117, 867, 45, -1980
+```
