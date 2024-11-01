@@ -91,35 +91,46 @@ vetor:	.byte	7, "zstabra" 				; Ta assim de proposito, assim da pra saber se vai
 ## Quarta Questão
 ```assembly
         mov     #vetor, R5
-        mov.w	@R5, R8
-        mov.w   @R5+, R6
+        mov.w	@R5+, R8
+        mov.w   @R5, R6
         mov.w   @R5, R7
-        dec	R5
+        sub.w	#2,R5
         call    #loop
+		jmp		$
 
 loop:
-        ADD	#2, R5
-        cmp	@R5, R7
-        jl    	novo_menor
+		ADD		#2, R5
+		cmp		#0,R8
+        jz     	NEXT
 
-        cmp	@R5, R6
-        jge	novo_maior
 
-        dec	R8
-	cmp	#0,R8
-        jnz     loop
-        jmp	$
+        cmp		@R5, R7
+        jl    	novo_maior
 
-novo_menor:
-        mov   @R5, R7
-        dec	R8
-        jmp     loop
+        cmp		@R5, R6
+        jge		novo_menor
+
+        jmp		NEXT2
+
+NEXT2:
+		dec		R8
+		jmp		loop
+
+
+NEXT:
+		ret
+
+
 novo_maior:
+        mov   @R5, R7
+        dec		R8
+        jmp     loop
+novo_menor:
         mov   @R5, R6
-        dec	R8
+        dec		R8
         jmp     loop
         nop
 
 .data
-vetor:      .word 8, 121, 234, 567, -1990 , 117, 867, 45, -1980
+vetor:      .word 8, 121, 234, 567, 0 , 117, 867, 45, -1
 ```
