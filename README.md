@@ -21,6 +21,65 @@ igual_elemento:
         INC     R7
 ```
 Ponto Interessante: seria válido por um .B pois são bytes.
+
+## Primeira Questão Baby
+```assembly
+	mov	#vetor,R5
+	mov.b	@R5+,R8
+	mov.b	@R5,R6
+	mov.b	#1,R7					; Considera que a partir do primeiro momento, ja tera pelo menos a repeticao de qualquer byte menor, como em ABCDE, onde A aparece so 1 vez
+	inc	R5
+	call	#SUBROT
+	jmp	$
+
+SUBROT:
+	cmp.b	@R5, R6
+	jeq	IGUAL
+
+	cmp.b	@R5,R6
+	jge	MENOR
+
+	cmp.b	@R5, R6
+	jl	MAIOR
+
+MAIOR:
+	dec	R8
+	cmp	#0,R8
+	jz	NEXT
+
+	inc	R5
+	jmp	SUBROT
+	nop
+
+IGUAL:
+	dec	R8
+	cmp	#0,R8
+	jz	NEXT
+	inc	R7
+	inc	R5
+	jmp	SUBROT
+	nop
+
+MENOR:
+	dec	R8
+	cmp	#0,R8
+	jz	NEXT
+
+	mov.b	@R5,R6
+	inc	R5
+
+
+	jmp	SUBROT
+
+NEXT:
+	ret
+							; pra retornar a "main"
+	.data
+
+vetor:	.byte	7, "zstabra" 				; Ta assim de proposito, assim da pra saber se vai funcionar de forma sequencial porque "s" é menor que z, mas "t" não
+
+```
+
 ## Segunda Questão
 ```assembly
 
