@@ -67,7 +67,7 @@ MENOR:
 
 	mov.b	@R5,R6
 	inc	R5
-
+	mov.b	#1,R7
 
 	jmp	SUBROT
 
@@ -82,6 +82,57 @@ vetor:	.byte	7, "zstabra" 				; Ta assim de proposito, assim da pra saber se vai
 
 ## Segunda Questão
 ```assembly
+	mov		#vetor,R5
+	mov.w	@R5,R8
+	add		#2,R5
+	mov		@R5,R6
+	add		#2,R5
+	mov.b	#1,R7		;Considera que a partir do primeiro momento, ja tera pelo menos a repeticao de qualquer byte menor, como em ABCDE, onde A aparece so 1 vez
+	call	#SUBROT
+	jmp		$
+
+SUBROT:
+	cmp.w		@R5, R6
+	jeq		IGUAL
+
+	cmp.w		@R5, R6
+	jl		MAIOR
+
+	cmp.w		@R5,R6
+	jge		FDS
+MAIOR:
+	dec		R8
+	cmp		#0,R8
+	jz		NEXT
+	mov		@R5,R6
+	add		#2,R5
+	mov.b		#1,R7
+	jmp		SUBROT
+	nop
+
+IGUAL:
+	dec		R8
+	cmp		#0,R8
+	jz		NEXT
+	inc		R7
+	add		#2,R5
+	jmp		SUBROT
+	nop
+
+FDS:
+	dec		R8
+	cmp		#0,R8
+	jz		NEXT
+	add		#2,R5
+	jmp		SUBROT
+
+NEXT:
+	ret						;pra retornar a "main"
+
+
+
+		.data
+vetor:      .byte	6, 0,"JOJOZZMJOSE",0
 
 ```
 ## Terceira Questão
