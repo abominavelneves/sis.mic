@@ -185,3 +185,72 @@ novo_menor:
 .data
 vetor:      .word 8, 121, 234, 567, 0 , 117, 867, 45, -1
 ```
+## Quinta Questão
+```assembly
+mov		#0x2420, R7
+	mov		#vetor1, R5
+	mov		#vetor2, R6
+	mov		@R5, R8
+	add		#2, R5
+	add		#2, R6
+
+	call	#loop
+	jmp		$
+
+
+loop:
+
+	cmp		#0, R8
+	jz		NEXT
+
+	jmp		SOMA
+
+SOMA:
+	mov		@R5, R9
+	add		@R6, R9
+	mov		R9, 0(R7)
+	add		#2, R5
+	add		#2, R6
+	add		#2, R7
+	dec		R8
+
+
+	jmp		loop
+
+
+
+NEXT:
+	ret
+
+
+			.data
+
+vetor1:		.word	7, 65000, 50054, 26472, 53000, 60606, 814, 41121
+vetor2:		.word	7, 226, 3400, 26472, 470, 1020, 44444, 12345
+
+```
+## Sexta Questão
+```assembly
+
+```
+## Setima Questão
+```assembly
+
+```
+## Oitava Questão
+```assembly
+
+```
+## Nona Questão
+```assembly
+
+```
+## Decima Questão
+```assembly
+
+```
+## Decima Primeira Questão
+```assembly
+
+```
+
