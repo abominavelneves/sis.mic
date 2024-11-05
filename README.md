@@ -1,28 +1,5 @@
 # Módulo 1 de Sistemas Microprocessados
-## Primeira Questão
-```assembly
-E1:     MOV     @R5+,R6     ; menor elemento
-        MOV     #1,R7       ; FREQUENCIA
-        MOV     #5,R8       ; TAMANHO DO ARRAY
-loop_menor:
-        CALL    #menor_subrotina
-        DEC     R8
-        JNZ     loop_menor
-menor_subrotina:
-        CMP     @R5,R6
-        JLO     menor_elemento  ; se for menor vai para menor
-        JZ      igual_elemento  ; se for igual vai para igual
-        INC     R5              ; incrementa R5 manualmente
-        RET                     ; se for maior volta para o loop
-menor_elemento:
-        MOV     @R5,R6
-        MOV     #1, R7
-igual_elemento:
-        INC     R7
-```
-Ponto Interessante: seria válido por um .B pois são bytes.
-
-## Primeira Questão Baby
+## Primeira Questão 
 ```assembly
 	mov	#vetor,R5
 	mov.b	@R5+,R8
@@ -229,6 +206,28 @@ vetor1:		.word	7, 65000, 50054, 26472, 53000, 60606, 814, 41121
 vetor2:		.word	7, 226, 3400, 26472, 470, 1020, 44444, 12345
 
 ```
+## Quinta Questão
+```assembly
+e1:		mov	#vetor1,R5	;alocando o vetor1 para R5
+		mov	@R5+,R8		;alocando o tamanho do vetor em R8
+		mov	#vetor2,R6	;alocando o vetor2 para R6
+		incd	R6
+		mov	#0,R7		;iniciando o resultado em 0
+		call	#SUM16
+		jmp		$
+
+SUM16:		add	@R5+,R7
+		add	@R6+,R7
+		dec	R8
+		cmp	#0,R8
+		jnz	SUM16
+		ret
+
+			.data
+vetor1: 	.word 7, 65000, 50054, 26472, 53000, 60606, 814, 41121
+vetor2: 	.word 7, 226, 3400, 26472, 470, 1020, 44444, 12345
+```
+Obs: resolver o problema do Overflow. A somatória excede a quantidade que o registrador é capaz de armazenar
 ## Sexta Questão
 ```assembly
 
