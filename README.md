@@ -1,5 +1,5 @@
 # Módulo 1 de Sistemas Microprocessados
-## Primeira Questão 
+## Primeira Questão Baby
 ```assembly
 	mov	#vetor,R5
 	mov.b	@R5+,R8
@@ -57,7 +57,7 @@ vetor:	.byte	7, "zstabra" 				; Ta assim de proposito, assim da pra saber se vai
 
 ```
 
-## Segunda Questão
+## Segunda Questão Baby
 ```assembly
 	mov		#vetor,R5
 	mov.w	@R5,R8
@@ -116,7 +116,7 @@ vetor:      .byte	6, 0,"JOJOZZMJOSE",0
 ```assembly
 
 ```
-## Quarta Questão
+## Quarta Questão Baby
 ```assembly
         mov     #vetor, R5
         mov.w	@R5+, R8
@@ -162,7 +162,7 @@ novo_menor:
 .data
 vetor:      .word 8, 121, 234, 567, 0 , 117, 867, 45, -1
 ```
-## Quinta Questão
+## Quinta Questão Baby
 ```assembly
 mov		#0x2420, R7
 	mov		#vetor1, R5
@@ -206,7 +206,7 @@ vetor1:		.word	7, 65000, 50054, 26472, 53000, 60606, 814, 41121
 vetor2:		.word	7, 226, 3400, 26472, 470, 1020, 44444, 12345
 
 ```
-## Quinta Questão
+## Quinta Questão Isaac
 ```assembly
 e1:		mov	#vetor1,R5	;alocando o vetor1 para R5
 		mov	@R5+,R8		;alocando o tamanho do vetor em R8
