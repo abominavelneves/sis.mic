@@ -255,8 +255,8 @@ Obs: resolver o problema do Overflow. A somatória excede a quantidade que o reg
 ## Questao_07pontos
 ```assembly
 
-NUM .equ 	900
-	mov.w	#0x2400,R10
+NUM .equ 	3999
+	mov		#0x2400,R10
 	MOV 	#NUM, R5
 	MOV		#0,	R4		;MIL
 	MOV		#0,	R6		;CEM
@@ -269,6 +269,7 @@ NUM .equ 	900
 ALG_ROM:
 
 	call	#MIL
+	JMP		$
 
 MIL:
 	cmp		#1000, R5
@@ -310,8 +311,9 @@ REFAZ_MIL:
 	cmp		#0, R4
 	jz		REFAZ_CEM
 
-	mov.b	#'M', R10
+	mov.b	#'M', 0(R10)
 	inc		R10
+	dec 	R4
 	jmp		REFAZ_MIL
 
 
@@ -319,17 +321,196 @@ REFAZ_CEM:
 	cmp		#0, R6
 	jz		REFAZ_DEZ
 	cmp		#9, R6
-	mov.b	#'C', R10
-	cmp		#9, R6
+	jz		CM
+	cmp		#8, R6
+	jz		DCCC
+	cmp		#7, R6
+	jz		DCC
+	cmp		#6, R6
+	jz		DC
+	cmp		#5, R6
+	jz		D
+	cmp		#4, R6
+	jz		CD
+
+	mov.b	#'C',0(R10)
 	inc		R10
-	cmp		#9, R6
-	mov.b	#'M', R10
+	dec		R6
+	jmp		REFAZ_CEM
+
+
+CM:
+	mov.b	#'C', 0(R10)
+	inc		R10
+	mov.b	#'M', 0(R10)
+	inc		R10
+	jmp		REFAZ_DEZ
+DCCC:
+	mov.b	#'D', 0(R10)
+	inc		R10
+	mov.b	#'C', 0(R10)
+	inc		R10
+	mov.b	#'C', 0(R10)
+	inc		R10
+	mov.b	#'C', 0(R10)
+	inc		R10
+	jmp		REFAZ_DEZ
+DCC:
+	mov.b	#'D', 0(R10)
+	inc		R10
+	mov.b	#'C', 0(R10)
+	inc		R10
+	mov.b	#'C', 0(R10)
+	inc		R10
+	jmp		REFAZ_DEZ
+DC:
+	mov.b	#'D', 0(R10)
+	inc		R10
+	mov.b	#'C', 0(R10)
+	inc		R10
+	jmp		REFAZ_DEZ
+D:
+	mov.b	#'D', 0(R10)
+	inc		R10
+	jmp		REFAZ_DEZ
+CD:
+	mov.b	#'C', 0(R10)
+	inc		R10
+	mov.b	#'D', 0(R10)
+	inc		R10
+	jmp		REFAZ_DEZ
 
 REFAZ_DEZ:
 	cmp		#0, R7
+	jz		REFAZ_UM
+	cmp		#9, R7
+	jz		XC
+	cmp		#8, R6
+	jz		LXXX
+	cmp		#7, R6
+	jz		LXX
+	cmp		#6, R6
+	jz		LX
+	cmp		#5, R6
+	jz		L
+	cmp		#4, R6
+	jz		XL
+
+	mov.b	#'X',0(R10)
+	inc		R10
+	dec		R7
+	jmp		REFAZ_CEM
+
+
+XC:
+	mov.b	#'X', 0(R10)
+	inc		R10
+	mov.b	#'C', 0(R10)
+	inc		R10
+	jmp		REFAZ_UM
+LXXX:
+	mov.b	#'L', 0(R10)
+	inc		R10
+	mov.b	#'X', 0(R10)
+	inc		R10
+	mov.b	#'X', 0(R10)
+	inc		R10
+	mov.b	#'X', 0(R10)
+	inc		R10
+	jmp		REFAZ_UM
+LXX:
+	mov.b	#'L', 0(R10)
+	inc		R10
+	mov.b	#'X', 0(R10)
+	inc		R10
+	mov.b	#'X', 0(R10)
+	inc		R10
+	jmp		REFAZ_UM
+LX:
+	mov.b	#'L', 0(R10)
+	inc		R10
+	mov.b	#'X', 0(R10)
+	inc		R10
+	jmp		REFAZ_UM
+L:
+	mov.b	#'L', 0(R10)
+	inc		R10
+	jmp		REFAZ_UM
+XL:
+	mov.b	#'X', 0(R10)
+	inc		R10
+	mov.b	#'L', 0(R10)
+	inc		R10
+	jmp		REFAZ_UM
 
 REFAZ_UM:
 	cmp		#0, R8
+	jz		NEXT
+	cmp		#9, R8
+	jz		IX
+	cmp		#8, R8
+	jz		VIII
+	cmp		#7, R8
+	jz		VII
+	cmp		#6, R8
+	jz		VI
+	cmp		#5, R8
+	jz		VA
+	cmp		#4, R8
+	jz		IV
+
+	mov.b	#'I',0(R10)
+	inc		R10
+	dec		R8
+	jmp		REFAZ_UM
+
+
+IX:
+	mov.b	#'I', 0(R10)
+	inc		R10
+	mov.b	#'X', 0(R10)
+	inc		R10
+	jmp		NEXT
+VIII:
+	mov.b	#'V', 0(R10)
+	inc		R10
+	mov.b	#'I', 0(R10)
+	inc		R10
+	mov.b	#'I', 0(R10)
+	inc		R10
+	mov.b	#'I', 0(R10)
+	inc		R10
+	jmp		NEXT
+VII:
+	mov.b	#'V', 0(R10)
+	inc		R10
+	mov.b	#'I', 0(R10)
+	inc		R10
+	mov.b	#'I', 0(R10)
+	inc		R10
+	jmp		NEXT
+VI:
+	mov.b	#'V', 0(R10)
+	inc		R10
+	mov.b	#'I', 0(R10)
+	inc		R10
+	jmp		NEXT
+
+VA:
+	mov.b	#'V', 0(R10)
+	inc		R10
+	jmp		NEXT
+IV:
+	mov.b	#'I', 0(R10)
+	inc		R10
+	mov.b	#'V', 0(R10)
+	inc		R10
+	jmp		NEXT
+
+
+NEXT:
+
+	RET
 
 		.data
 RESP: 	.byte 	0
