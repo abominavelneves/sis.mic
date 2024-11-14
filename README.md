@@ -57,8 +57,6 @@ vetor:	.byte	7, "zstabra" 				; Ta assim de proposito, assim da pra saber se vai
 
 ```
 
-
-
 ## Segunda Questão Baby
 ```assembly
 	mov		#vetor,R5
@@ -254,4 +252,87 @@ Obs: resolver o problema do Overflow. A somatória excede a quantidade que o reg
 ```assembly
 
 ```
+## Questao_07pontos
+```assembly
 
+NUM .equ 	900
+	mov.w	#0x2400,R10
+	MOV 	#NUM, R5
+	MOV		#0,	R4		;MIL
+	MOV		#0,	R6		;CEM
+	MOV		#0,	R7		;DEZ
+	MOV		#0,	R8		;UM
+	CALL 	#ALG_ROM
+	JMP 	$
+	NOP
+
+ALG_ROM:
+
+	call	#MIL
+
+MIL:
+	cmp		#1000, R5
+	jl		CEM
+	add		#1,R4
+	sub		#1000, R5
+	jmp		MIL
+
+
+
+CEM:
+	cmp		#100, R5
+	jl		DEZ
+	add		#1,R6
+	sub		#100, R5
+	jmp		CEM
+
+
+DEZ:
+	cmp		#10, R5
+	jl		UM
+	add		#1,R7
+	sub		#10, R5
+	jmp		DEZ
+
+
+
+UM:
+	cmp		#0, R5
+	jz		REFAZ_MIL
+	cmp		#1, R5
+	add		#1,R8
+	sub		#1, R5
+	jz		REFAZ_MIL
+	jmp		UM
+
+
+REFAZ_MIL:
+	cmp		#0, R4
+	jz		REFAZ_CEM
+
+	mov.b	#'M', R10
+	inc		R10
+	jmp		REFAZ_MIL
+
+
+REFAZ_CEM:
+	cmp		#0, R6
+	jz		REFAZ_DEZ
+	cmp		#9, R6
+	mov.b	#'C', R10
+	cmp		#9, R6
+	inc		R10
+	cmp		#9, R6
+	mov.b	#'M', R10
+
+REFAZ_DEZ:
+	cmp		#0, R7
+
+REFAZ_UM:
+	cmp		#0, R8
+
+		.data
+RESP: 	.byte 	0
+
+
+```
