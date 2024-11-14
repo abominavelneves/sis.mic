@@ -57,6 +57,8 @@ vetor:	.byte	7, "zstabra" 				; Ta assim de proposito, assim da pra saber se vai
 
 ```
 
+
+
 ## Segunda Questão Baby
 ```assembly
 	mov		#vetor,R5
