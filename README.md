@@ -234,6 +234,26 @@ Obs: resolver o problema do Overflow. A somatória excede a quantidade que o reg
 ```
 ## Setima Questão
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+    .text 
+main:
+    clr     R4
+    mov     #0x2400,R4
+    mov.w   #0,0(R4)
+    mov.w   #1,2(R4)
+    add     #2,R4
+    mov.b   #18,R13
+    call    #fib
+    jmp     $
+    nop
+fib:
+    add     #2,R4
+    mov.w   -4(R4),0(R4)
+    add.w   -2(R4),0(R4)
+    dec     R13
+    jnz     fib
+    ret
 
 ```
 ## Oitava Questão
