@@ -232,7 +232,7 @@ Obs: resolver o problema do Overflow. A somatória excede a quantidade que o reg
 ```assembly
 
 ```
-## Setima Questão
+## Setima Questão Isaac/Baby
 ```assembly
     .cdecls "msp430.h"
     .global main
