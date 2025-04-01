@@ -112,8 +112,43 @@ NEXT:
 vetor:      .byte	6, 0,"JOJOZZMJOSE",0
 
 ```
-## Terceira Questão
+## Quarta Questão Novo Roteiro Baby
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+    .text 
+main:
+    clr     R4
+    clr     R5
+    clr     R6
+    mov.w     #10,R4
+    mov.w     #10,R5
+
+    mov.w     R4,R6
+
+    cmp       #0,R5
+    jz        zeros
+    cmp       #0,R4
+    jz        zeros
+
+    clr       R4 
+
+    call      #laco
+    jmp       $
+    nop
+
+laco:
+   
+
+    add.w     R6,R4
+    dec       R5   
+    jnz       laco
+    ret
+
+zeros:
+    clr       R4
+    jmp       $
+    nop
 
 ```
 ## Quarta Questão Baby
