@@ -92,6 +92,35 @@ fib:
 ```
 ## Décima Questão 
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+main:
+
+    mov.w   #v, R12
+    mov.b   #10,R13
+    clr     R14
+
+    call    #soma
+    mov.w   R14, R12
+    jmp     $
+    nop
+
+soma:
+
+    add.b   0(R12),R14
+    inc     R12
+    dec     R13
+    jnz     soma
+    ret
+
+
+
+
+    .data
+v:  .byte   1,2,3,4,5,6,7,8,9,10
 	
 ```
 ## Décima-Primeira Questão 
