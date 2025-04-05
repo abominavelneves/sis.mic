@@ -9,6 +9,31 @@
 ```
 ## Terceira Questão 
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+main:
+
+    clr     R12
+    mov.w   #0xFFAF, R4 
+    mov.w   #0x0001, R5
+
+    mov.w   R4, R12
+    add.w   R5, R12
+    jc     limitador
+    jmp     fim
+
+
+limitador:
+    mov.w   #0xFFFF, R12
+    jmp     fim
+
+
+fim:
+    jmp     $
+    nop
 	
 ```
 ## Quarta Questão 
