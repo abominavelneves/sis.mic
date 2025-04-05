@@ -77,6 +77,39 @@ zeros:
 ```
 ## Quinta Questão 
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+main:
+
+    mov.b       #5, R4
+    mov.b       #-5, R5
+    clr         R6
+    mov.b       R4, R6
+    add.b       R5, R6
+    jz          zero
+    jn          negative
+    jmp         positive
+
+zero:
+    jmp         fim
+
+negative:
+    sub.b       #1, R6
+    jmp         fim
+
+positive:
+    add.b       #1, R6
+    jmp         fim
+
+fim:
+    jmp         $
+    nop
+
+
+
 	
 ```
 ## Sexta Questão 
