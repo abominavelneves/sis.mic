@@ -172,6 +172,51 @@ fib:
 ```
 ## Oitava Questão 
 ```assembly
+
+    .cdecls "msp430.h"
+    .global main
+    .text 
+main:
+    clr     R12
+    mov.w   #0,R12
+    mov.w   #1,R13   
+    call    #fib
+
+    jmp     $
+    nop
+
+fib:
+
+    push    R4
+    push    R5
+    push    R6
+    push    R7
+
+    mov.w   R12, R4
+    mov.w   R13, R5
+    clr     R6
+    call    #loop
+
+    mov.w   R7, R12
+
+    pop     R4
+    pop     R5
+    pop     R6
+    pop     R7
+    ret
+
+loop: 
+    
+    mov.w   R4, R6
+    mov.w   R5, R7
+    add.w   R5, R6
+    mov.w   R6, R5
+    mov.w   R7, R4
+    jnc     loop
+    ret
+
+    
+
 	
 ```
 ## Nona Questão 
