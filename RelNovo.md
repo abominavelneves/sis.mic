@@ -42,36 +42,14 @@ fim:
     .global main
     .text 
 main:
-    clr     R4
-    clr     R5
+    mov.b   #3,R4
+    mov.b   #2,R5
     clr     R6
-    mov.w     #10,R4
-    mov.w     #10,R5
-
-    mov.w     R4,R6
-
-    cmp       #0,R5
-    jz        zeros
-    cmp       #0,R4
-    jz        zeros
-
-    clr       R4 
-
-    call      #laco
-    jmp       $
-    nop
-
-laco:
-   
-
-    add.w     R6,R4
-    dec       R5   
-    jnz       laco
-    ret
-
-zeros:
-    clr       R4
-    jmp       $
+mult:
+    add     R4,R6
+    dec     R5
+    jnz     mult
+    jmp     $
     nop
 	
 ```
@@ -114,6 +92,58 @@ fim:
 ```
 ## Sexta Questão 
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+    .text 
+main:
+
+    mov.b     #10,R12
+    mov.b     #10,R13
+
+    call      #subrot
+    jmp       $
+    nop
+
+subrot:
+
+    push      R4
+    push      R5
+    push      R6
+
+    mov.b     R12, R4
+    mov.b     R13, R5
+    
+
+
+    cmp       #0,R5
+    jz        zeros
+    cmp       #0,R4
+    jz        zeros
+
+loop:
+
+
+    mov.b     R4,R6
+   
+    add.b     R6,R4
+    dec       R5 
+    jnz       loop
+
+    mov.b     R4, R12
+    mov.b     R5, R13
+
+    pop       R4
+    pop       R5
+    pop       R6
+
+    ret
+
+zeros:
+    clr       R12
+    pop       R4
+    pop       R5
+    pop       R6
+    ret
 	
 ```
 ## Setima Questão 
