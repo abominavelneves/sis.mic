@@ -320,38 +320,57 @@ v:  .byte   1,2,3,4,5,6,7,8,9,10
 ```
 ## Décima-Primeira Questão 
 ```assembly
-                .cdecls "msp430.h"
-                .global main
-                .text 
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
 main:
-    mov     #v, R12     
-    mov     #2, R13          
-    call    #reduceSum16     
 
+    mov.w   #v, R12
+    mov.b   #10,R13
+
+    call    #soma
     jmp     $
-    nop 
+    nop
 
-reduceSum16:
-    mov     #0, R14        
-    mov     #0, R15
-    jmp     loop16          
-loop16:
-    cmp     #0, R13
-    jz      fim16
-    mov     @R12+, R10     
-    add     R10, R14     
-    addc    #0, R15         
-    dec     R13           
-    jnz     loop16
-fim16:
-    mov     R14, R12      
-    mov     R15, R13        
+soma:
+    push    R4 
+    push    R5
+
+    push    R6
+    push    R7
+
+    mov.w   R12, R4
+    mov.b   R13, R5
+
+    clr     R6
+    clr     R7
+
+
+loop:
+    add.w   0(R4),R6
+    addc.w  #0, R7   
+
+    add     #2,R4
+    dec     R5
+    jnz     loop
+
+
+
+    mov.w   R6, R12
+    mov.w   R7, R13
+
+    pop     R4
+    pop     R5
+    pop     R6
+    pop     R7
+
     ret
 
 
-
-                .data 
-v:              .word 65535,5
+    .data
+v:  .word   65535,65535,1, 65535, 65535, 40000, 20000, 1, 2, 3
 	
 ```
 ## Décima-Segunda  Questão 
