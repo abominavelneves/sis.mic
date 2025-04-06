@@ -221,6 +221,68 @@ loop:
 ```
 ## Nona Questão 
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+    .text 
+main:
+    clr     R12
+    mov.w   #0,R12 
+    mov.w   #1,R13
+    mov.w   #0, R14
+    mov.w   #0, R15   
+    call    #fib
+
+    jmp     $
+    nop
+
+fib:
+
+    push    R4  ;metade alta anterior (R12)
+    push    R5  ;metade alta atual (R13)
+    push    R6  ;metade baixa anterior (R14)
+    push    R7  ;metade baixa atual (R15)
+
+    push    R8  ;DE REFERENCIA alta
+    push    R10 ;DE REFERENCIA baixa
+
+
+
+    mov.w   R12,R4
+    mov.w   R13,R5
+    mov.w   R14,R6
+    mov.w   R15,R7
+
+    call    #loop
+
+    mov.w   R5, R12
+    mov.w   R6, R13
+
+    pop     R4
+    pop     R5
+    pop     R6
+    pop     R7
+    pop     R8
+    pop     R10
+    ret
+
+loop:
+
+    ;baixa 
+    mov.w   R4, R8
+    mov.w   R5, R4
+    add.w   R5, R8
+    mov.w   R8, R5
+
+    addc.w  #0,R7
+    mov.w   R6,R10
+    mov.w   R7, R6
+    add.w   R7, R10
+    mov.w   R10, R7
+    jnc     loop
+    jc      carry
+
+carry:
+    ret    
 	
 ```
 ## Décima Questão 
