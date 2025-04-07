@@ -422,6 +422,45 @@ v2:             .byte 10,20,20   ;b
 ```
 ## Décima-Terceira Questão 
 ```assembly
+
+                .cdecls "msp430.h"
+                .global main
+                .text 
+main:
+
+    mov     #v1, R5
+    mov     #v2, R6   
+    mov     #s, R7
+    mov     #8, R8
+
+    call    #mapSum16
+
+    jmp     $
+    nop
+
+mapSum16:
+
+    mov.w   0(R5), 0(R7)
+    add.w   0(R6), 0(R7)
+
+    add     #2, R5
+    add     #2, R6
+    add     #2, R7
+
+    dec     R8
+    jnz     mapSum16
+    ret
+
+
+
+    
+
+ 
+                .data
+
+v1:             .word 7, 65000, 50054, 26472, 53000, 60606, 814, 41121   ;a
+v2:             .word 7, 226, 3400, 26472, 470, 1020, 44444, 12345      ;b
+s:              .word 7, 0, 0, 0, 0, 0, 0, 0 
 	
 ```
 ## Décima-Quarta Questão 
