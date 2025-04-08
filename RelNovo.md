@@ -543,3 +543,110 @@ v1: .byte   10, 7, 4, 5, 12, 9
 	
 ```
 
+
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+## Décima-Sexta  Questão 
+```assembly
+
+main:
+
+    mov     #v1, R12
+    mov     #10, R13
+
+    call    #menor
+
+    jmp     $
+    nop
+
+menor:
+    push    R4
+    push    R5  
+    push    R6 
+    push    R7
+
+    mov     R12, R4
+    mov     R13, R5
+    mov.b   0(R12), R6
+    clr     R7
+
+    cmp     #0, R5
+    jz      fim1
+
+    cmp     #1, R5
+    jz      fim2
+
+    jmp     loop
+
+loop:
+
+
+    cmp.b   0(R4), R6
+    jz      continua_menor
+    jge     novo_menor
+
+
+
+    inc     R4
+    dec     R5
+    jnz     loop
+    jmp     fim0
+
+novo_menor:
+    mov     #1, R7
+    mov.b   0(R4), R6
+    inc     R4
+
+    dec     R5
+    jnz     loop
+    jmp     fim0  
+
+continua_menor:
+    inc     R7
+    inc     R4
+    dec     R5
+    jnz     loop
+    jmp     fim0
+
+
+fim0:
+
+    mov     R6, R12
+    mov     R7, R13
+    pop    R4
+    pop    R5  
+    pop    R6 
+    pop    R7
+    ret
+
+fim1:
+    mov     #0, R12
+    mov     #0, R13
+    pop    R4
+    pop    R5  
+    pop    R6 
+    pop    R7
+    ret
+
+fim2:
+    mov     0(R4), R12
+    mov     #1, R13
+    pop    R4
+    pop    R5  
+    pop    R6 
+    pop    R7
+    ret
+
+
+
+  
+
+
+
+    .data
+
+v1: .byte   10, 7, 4, 5, 4, 9, 10, 2, 9, 10
+```
