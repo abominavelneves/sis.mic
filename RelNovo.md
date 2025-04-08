@@ -465,6 +465,81 @@ s:              .word 7, 0, 0, 0, 0, 0, 0, 0
 ```
 ## Décima-Quarta Questão 
 ```assembly
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+main:
+
+    mov     #v1, R12
+    mov     #6, R13
+
+    call    #m2m4
+
+    jmp     $
+    nop
+
+m2m4:
+
+    push    R4
+    push    R5
+    push    R6
+    push    R7
+
+    clr     R6
+    clr     R7
+
+    mov     R12, R4
+    mov     R13, R5
+
+    call     #loop_m2
+
+    mov     R6, R12
+    mov     R7, R13
+
+    push    R4
+    push    R5
+    push    R6
+    push    R7
+
+    ret
+
+
+
+loop_m2:
+
+    bit.b     #0x01, 0(R4)
+    jz      loop_m4
+    inc     R4     
+    dec     R5
+    jnz     loop_m2
+    jmp     fim
+
+loop_m4:
+
+    inc     R6
+    bit.b     #0x03, 0(R4)
+    jz      eosdois
+    inc     R4
+    dec     R5
+    jnz     loop_m2
+    jmp     fim
+
+eosdois:
+    inc     R7
+    inc     R4
+    dec     R5
+    jnz     loop_m2
+
+fim:
+    ret
+
+
+
+    .data
+
+v1: .byte   10, 7, 4, 5, 12, 9
 	
 ```
 
