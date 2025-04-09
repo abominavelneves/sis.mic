@@ -768,3 +768,133 @@ fim2:
 
 v1: .byte   10, 7, 4, 5, 4, 9, 10, 2, 9, 10
 ```
+## Décima-Nona  Questão 
+```assembly
+
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+main:
+
+    mov     #v1, R13
+    mov.w   #0x89AB, R12
+    
+    call    #W16_ASC
+    jmp     $
+    nop
+
+
+W16_ASC:
+    push    R5
+    push    R4
+    push    R6
+    push    R7
+    mov.w   R12, R4      
+    and.w   #0xF000, R4
+    mov.w   R12, R5      
+    and.w   #0x0F00, R5
+    mov.w   R12, R6      
+    and.w   #0x00F0, R6
+    mov.w   R12, R7      
+    and.w   #0x000F, R7
+
+    call        #shift_loop_12
+    call        #shift_loop_8
+    call        #shift_loop_4
+    call        #shift_loop_0
+
+    pop     R4
+    pop     R5
+    pop     R6
+    pop     R7
+    ret
+
+shift_loop_12:
+    mov.b   #12, R8
+mini_loop_1:
+    clrc
+    rrc.w   R4
+    dec     R8
+    jnz     mini_loop_1
+
+    cmp.b   #0x0A, R4
+    jhs     maior_que_10_12
+    jmp     menor_que_10_12
+
+shift_loop_8:
+    mov.b   #8, R8
+mini_loop_2:
+    clrc
+    rrc.w   R5
+    dec     R8
+    jnz     mini_loop_2
+
+    cmp.b   #0x0A, R5
+    jhs     maior_que_10_8
+    jmp     menor_que_10_8
+
+shift_loop_4:
+    mov.b   #4, R8
+mini_loop_3:
+    clrc
+    rrc.w   R6
+    dec     R8
+    jnz     mini_loop_3
+
+    cmp.b   #0x0A, R6 
+    jhs     maior_que_10_4
+    jmp     menor_que_10_4
+
+shift_loop_0:
+    cmp.b   #0x0A, R7
+    jhs     maior_que_10_0
+    jmp     menor_que_10_0
+
+maior_que_10_12:
+    sub.b   #0x09, R4
+    add.b   #0x40, R4
+    mov.b   R4, 0(R13)
+    ret
+menor_que_10_12:
+    add.b   #0x30, R4
+    mov.b   R4, 0(R13)
+    ret
+
+maior_que_10_8:
+    sub.b   #0x09, R5
+    add.b   #0x40, R5
+    mov.b   R5, 1(R13)
+    ret
+menor_que_10_8:
+    add.b   #0x30, R5
+    mov.b   R5, 1(R13)
+    ret
+
+maior_que_10_4:
+    sub.b   #0x09, R6
+    add.b   #0x40, R6
+    mov.b   R6, 2(R13)
+    ret
+menor_que_10_4:
+    add.b   #0x30, R6
+    mov.b   R6, 2(R13)
+    ret
+
+maior_que_10_0:
+    sub.b   #0x09, R7
+    add.b   #0x40, R7
+    mov.b   R7, 3(R13)
+    ret
+
+menor_que_10_0:
+    add.b   #0x30, R7
+    mov.b   R7, 3(R13)
+    ret
+
+
+    .data
+
+v1: .byte  0, 0, 0, 0
+```
