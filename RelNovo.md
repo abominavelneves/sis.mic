@@ -898,3 +898,131 @@ menor_que_10_0:
 
 v1: .byte  0, 0, 0, 0
 ```
+## Vigesima  Questão 
+```assembly
+
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+main:
+
+    mov     #v1, R12
+    call    #ASC_W16
+    jmp     $
+    nop
+
+ASC_W16:
+    push    R4
+    push    R5
+    push    R6
+    push    R7
+    push    R8
+
+    call    #seg1
+    call    #seg2
+    call    #seg3
+    call    #seg4
+
+    mov.w   R4, R12
+    add.w   R5, R12
+    add.w   R6, R12
+    add.w   R7, R12
+    ret
+
+seg1:
+
+    mov.b   0(R12), R4
+    cmp.b   #0x40, R4
+    jhs     letra_1
+    jmp     numero_1
+
+seg2:
+
+    mov.b   1(R12), R5
+    cmp.b   #0x40, R5
+    jhs     letra_2
+    jmp     numero_2
+
+seg3:
+
+    mov.b   2(R12), R6
+    cmp.b   #0x40, R6
+    jhs     letra_3
+    jmp     numero_3
+
+seg4:
+
+    mov.b   3(R12), R7
+    cmp.b   #0x40, R7
+    jhs     letra_4
+    jmp     numero_4
+
+letra_1:
+
+    add.b   #0x09, R4
+    sub.b   #0x40, R4
+shift_loop_1:
+    mov.b   #12, R8
+mini_loop_1:
+    rla.w   R4
+    dec     R8
+    jnz     mini_loop_1
+    ret
+
+letra_2:
+
+    add.b   #0x09, R5
+    sub.b   #0x40, R5
+shift_loop_2:
+    mov.b   #8, R8
+mini_loop_2:
+    rla.w   R5
+    dec     R8
+    jnz     mini_loop_2
+    ret
+
+letra_3:
+
+    add.b   #0x09, R6
+    sub.b   #0x40, R6
+shift_loop_3:
+    mov.b   #4, R8
+mini_loop_3:
+    rla.w   R6
+    dec     R8
+    jnz     mini_loop_3
+    ret
+
+letra_4:
+    add.b   #0x09, R7
+    sub.b   #0x40, R7
+    ret
+
+numero_1:
+    sub.b   #0x30, R4
+    jmp     shift_loop_1
+numero_2:
+    sub.b   #0x30, R5
+    jmp     shift_loop_2
+numero_3:
+    sub.b   #0x30, R6
+    jmp     shift_loop_3
+numero_4:
+    sub.b   #0x30, R7
+    ret
+
+
+
+
+
+
+
+
+
+
+    .data
+
+v1: .byte  '8', '9', 'A', 'B'
+```
