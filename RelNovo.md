@@ -768,6 +768,117 @@ fim2:
 
 v1: .byte   10, 7, 4, 5, 4, 9, 10, 2, 9, 10
 ```
+
+## Décima-Setima  Questão 
+```assembly
+
+    .cdecls "msp430.h"
+    .global main
+
+    .text
+
+main:
+
+    mov     #v1, R12
+    mov     #100, R13
+
+    call    #maior
+
+    jmp     $
+    nop
+
+maior:
+    push    R4
+    push    R5  
+    push    R6 
+    push    R7
+
+    mov     R12, R4
+    mov     R13, R5
+    mov.w   0(R12), R6
+    clr     R7
+
+    cmp.w     #0, R5
+    jz      fim1
+
+    cmp.w     #1, R5
+    jz      fim2
+
+    jmp     loop
+
+loop:
+
+
+    cmp.w   R6, 0(R4)
+    jz     continua_maior
+    jn     nada
+    jmp    novo_maior
+
+nada:
+
+    add     #2,R4
+    dec     R5
+    jnz     loop
+    jmp     fim0
+
+novo_maior:
+    mov     #1, R7
+    mov.w   0(R4), R6
+    add     #2,R4
+
+    dec     R5
+    jnz     loop
+    jmp     fim0  
+
+continua_maior:
+    inc     R7
+    add     #2,R4
+    dec     R5
+    jnz     loop
+    jmp     fim0
+
+
+fim0:
+
+    mov     R6, R12
+    mov     R7, R13
+    pop    R4
+    pop    R5  
+    pop    R6 
+    pop    R7
+    ret
+
+fim1:
+    mov     #0, R12
+    mov     #0, R13
+    pop    R4
+    pop    R5  
+    pop    R6 
+    pop    R7
+    ret
+
+fim2:
+    mov     0(R4), R12
+    mov     #1, R13
+    pop    R4
+    pop    R5  
+    pop    R6 
+    pop    R7
+    ret
+
+
+
+  
+
+
+
+    .data
+
+v1: .word   10, 7, 4, 5, 4, 9, 10, 2, 9, 10, 10, 7, 4, 5, 4, 9, 10, 2, 9, 10, 10, 7, 4, 5, 4, 9, 10, 2, 9, 10, 10, 7, 4, 5, 4, 9, 10, 2, 9, 10 ,10, 7, 4, 5, 4, 9, 10, 2, 9, 10 ,10, 7, 4, 5, 4, 9, 10, 2, 9, 10 ,10, 7, 4, 5, 4, 9, 10, 2, 9, 10 ,10, 7, 4, 5, 4, 9, 10, 2, 9, 10 ,10, 7, 4, 5, 4, 9, 10, 2, 9, 10 ,10, 7, 4, 5, 4, 9, 10, 2, 9, 10
+
+```
+
+
 ## Décima-Nona  Questão 
 ```assembly
 
