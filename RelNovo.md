@@ -1137,3 +1137,102 @@ numero_4:
 
 v1: .byte  '8', '9', 'A', 'B'
 ```
+
+## Parte 1
+```assembly
+
+        .cdecls "msp430.h"
+        .global main
+        .text
+main:
+        mov.w   #(WDTPW|WDTHOLD), &WDTCTL
+
+
+        mov     #matriz, R11 
+        mov     #2, R12 ;Linhas
+
+        mov     #5, R13 ;Colunas
+
+        call    #MAT_TRANSP 
+        jmp     $
+        nop
+
+
+MAT_TRANSP:
+
+        push    R4
+        push    R5
+        push    R6
+        push    R7
+        push    R8
+
+
+        mov     #matriz, R8
+
+        mov     #result, R4
+        mov     #result, R6
+
+
+        cmp     #1, R12
+        jz      So_um
+
+        cmp     #1, R13
+        jz      So_um
+
+
+        mov     R12, R5
+        mov     R13, R7
+        add     R13, R7
+
+
+
+
+        jmp     Coluna
+
+Linha:
+;R13 R5 
+        mov     R5, R12
+        add     #2, R8
+        dec     R13
+        jz      fim
+        mov.w   R8, R11
+        jmp     Coluna
+
+
+Coluna:
+;R12 R7    
+        
+        mov.w   0(R11), 0(R4)
+        add.w   R7, R11
+        add.w   #2, R4
+        dec     R12
+        jnz     Coluna
+        jmp     Linha
+
+
+So_um:
+        mov.w   0(R11), 0(R4)
+        add     #2, R11
+        add     #2, R4
+        cmp.w   R11, R6
+        jnz     So_um
+        jmp     fim
+
+
+fim:
+        pop     R4
+        pop     R5
+        pop     R6
+
+        ret
+        .data
+matriz: .word 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+result: .word 0
+
+;;Filosofia: Coluna Q vira Linha Q, e vice-versa
+
+```
+
+## Parte 2
+```assembly
+```
