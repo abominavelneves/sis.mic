@@ -1235,4 +1235,260 @@ result: .word 0
 
 ## Parte 2
 ```assembly
+
+        .cdecls "msp430.h"
+        .global main
+        .text
+main:
+        mov.w   #(WDTPW|WDTHOLD), &WDTCTL
+
+
+        mov     #matriz, R11 
+        mov     #3, R12 ;Linhas R4
+
+        mov     #3, R13 ;Colunas R5
+
+        call    #SUM_SUB 
+        jmp     $
+        nop
+
+
+SUM_SUB:
+
+        push    R4
+        push    R5
+        push    R6
+        push    R7
+        
+
+        clr     R7
+        clr     R6
+
+        mov     R12, R4
+        mov     R13, R5
+
+N_termos:
+        add.w   R12, R7
+        dec     R13
+        jnz     N_termos
+
+
+        mov     R4, R12
+        mov     R5, R13
+
+Somador:
+        add.w   0(R11), R6
+        add     #2, R11
+        dec     R7
+        jnz     Somador
+
+        mov.w   #matriz, R11
+        clr     R7
+        call    #ERRE11
+        clr     R7
+        mov.w   #matriz, R12
+        call    #ERRE12
+        clr     R7
+        mov.w   #matriz, R13
+        call    #ERRE13
+        clr     R7
+        mov.w   #matriz, R14
+        call    #ERRE14
+
+        pop     R7
+        pop     R6
+        pop     R5
+        pop     R4
+        ret
+
+
+
+
+ERRE11:
+        push    R5
+        push    R4
+
+loopzin:
+        add.w   0(R11), R7;;Coluna 1
+        add.w   R5, R11
+        add.w   R5, R11
+        dec     R4
+        jnz     loopzin
+
+        pop     R4
+        pop     R5
+        push    R5
+        push    R4
+        mov.w   #matriz, R11
+        sub.w   0(R11), R7
+
+loopzin1:
+        add.w   0(R11),R7
+        add.w   #2, R11
+        dec     R5
+        jnz     loopzin1
+
+        mov.w   R6, R11
+        sub.w   R7, R11
+
+        pop     R4
+        pop     R5
+        ret
+
+ERRE12:
+        push    R5
+        push    R4
+        add.w   R5, R12
+        add.w   R5, R12
+        sub.w   #2, R12
+loopzinn:
+        add.w   0(R12), R7
+        add.w   R5, R12
+        add.w   R5, R12
+        dec     R4
+        jnz     loopzinn
+
+        pop     R4
+        pop     R5
+        push    R5
+        push    R4
+        mov.w   #matriz, R12
+        add.w   R5, R12
+        add.w   R5, R12
+        sub.w   #2, R12
+        sub.w   0(R12), R7
+        mov.w   #matriz, R12
+loopzinn1:
+        
+        add.w   0(R12), R7
+        add.w   #2, R12
+        dec     R5
+        jnz     loopzinn1
+
+        mov.w   R6, R12
+        sub.w   R7, R12
+
+        pop     R4
+        pop     R5
+        ret
+
+ERRE13:
+        push    R5
+        push    R4
+loopzinnn:
+        add.w   0(R13), R7
+        add.w   R5, R13
+        add.w   R5, R13
+        dec     R4
+        jnz     loopzinnn
+
+        pop     R4
+        pop     R5
+        push    R5
+        push    R4
+        mov.w   #matriz, R13
+subb:
+        add.w   R5, R13
+        add.w   R5, R13
+        dec     R4
+        cmp     #1, R4
+        jnz     subb
+
+        sub.w   0(R13), R7
+
+        pop     R4
+        pop     R5
+        push    R5
+        push    R4
+        mov.w   #matriz, R13
+
+loopzinnn1:
+
+        add.w   R5, R13
+        add.w   R5, R13
+        dec     R4
+        cmp     #1, R4
+        jnz     loopzinnn1
+mini:
+        add.w   0(R13), R7
+        add.w   #2, R13
+        dec     R5
+        jnz     mini
+
+        mov.w   R6, R13
+        sub.w   R7, R13
+
+        pop     R4
+        pop     R5
+        ret
+
+ERRE14:
+        push    R5
+        push    R4
+        add.w   R5, R14
+        add.w   R5, R14
+        sub.w   #2, R14
+loop:
+        add.w   0(R14), R7
+        add.w   R5, R14
+        add.w   R5, R14
+        dec     R4
+        jnz     loop
+
+        pop     R4
+        pop     R5
+        push    R5
+        push    R4
+
+        mov.w   #matriz, R14
+        add.w   R5, R14
+        add.w   R5, R14
+        sub.w   #2, R14
+subbb:
+        add.w   R5, R14
+        add.w   R5, R14
+        dec     R4
+        cmp     #1, R4
+        jnz     subbb
+
+        sub.w   0(R14), R7
+
+        pop     R4
+        pop     R5
+        push    R5
+        push    R4
+        mov.w   #matriz, R14
+loop1:
+
+        add.w   R5, R14
+        add.w   R5, R14
+        dec     R4
+        cmp     #1, R4
+        jnz     loop1  
+
+mini2:
+        add.w   0(R14), R7
+        add.w   #2, R14
+        dec     R5
+        jnz     mini2
+
+        mov.w   R6, R14
+        sub.w   R7, R14
+
+        pop     R4
+        pop     R5
+        ret
+
+
+
+
+        .data
+
+
+matriz: .word 1,2,3,4,5,6,7,8,9
+
+
+;;Filosofia: Coluna Q vira Linha Q, e vice-versa
+
+
 ```
